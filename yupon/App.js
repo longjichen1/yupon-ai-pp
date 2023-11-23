@@ -1,3 +1,4 @@
+import "./config/firebase";
 import { Text, View } from "react-native";
 import Nav from "./nav";
 import { store } from "./store";

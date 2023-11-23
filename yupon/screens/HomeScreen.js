@@ -4,6 +4,7 @@ import {
   TextInput,
   SafeAreaView,
   StatusBar,
+  StyleSheet,
   ScrollView,
   Animated,
   TouchableHighlight,
@@ -15,6 +16,11 @@ import * as Icon from "react-native-feather";
 import Categories from "../components/categories";
 import Resturants from "../components/resturants";
 import { featured } from "../constants";
+import { useAuthentication } from "../utils/hooks/useAuthentication";
+import { Button } from "react-native-elements";
+import { getAuth, signOut } from "firebase/auth";
+
+const auth = getAuth();
 
 // Enable LayoutAnimation on Android
 if (
@@ -25,6 +31,8 @@ if (
 }
 
 export default function HomeScreen() {
+  const { user } = useAuthentication();
+
   const [settings, setSettings] = useState(false);
   const rotateValue = useState(new Animated.Value(0))[0];
   const [search, setSearch] = useState("");
@@ -45,6 +53,11 @@ export default function HomeScreen() {
   return (
     <SafeAreaView className="bg-white">
       <StatusBar barStyle="dark-content" />
+      <Button
+        title="Sign Out"
+        style={styles.button}
+        onPress={() => signOut(auth)}
+      />
 
       <View className="flex-row items-center space-x-2 px-4 pb-2 m-2 ">
         <View className="flex-row flex-1 items-center p-3 rounded-full border border-gray-300">
@@ -102,3 +115,15 @@ export default function HomeScreen() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button: {
+    marginTop: 10,
+  },
+});
